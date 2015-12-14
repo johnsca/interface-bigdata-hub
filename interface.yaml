@@ -1,0 +1,4 @@
+name: bigdata-hub
+summary: Interface for relating to the Big Data Hub service
+version: 1
+maintainer: "Big Data Team <bigdata@lists.ubuntu.com>"
