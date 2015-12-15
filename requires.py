@@ -99,8 +99,8 @@ class HubRequires(RelationBase):
         for service in removed_services:
             conv.remove_state('{relation_name}.service.%s' % service)
         for service in added_services:
-            conv.add_state('{relation_name}.service.%s' % service)
-        conv.set_local('provided-services', current_services)
+            conv.set_state('{relation_name}.service.%s' % service)
+        conv.set_local('provided-services', list(current_services))
 
     @hook('{requires:bigdata-hub}-relation-{departed,broken}')
     def departed(self):
@@ -122,12 +122,12 @@ class HubRequires(RelationBase):
         services = conv.get_local('registered-services', {})
         data = dict(data)
         if 'uuid' not in data:
-            data['uuid'] = uuid4()
+            data['uuid'] = str(uuid4())
         if 'ip' not in data:
             data['ip'] = local_ip()
         services.setdefault(name, []).append(data)
         conv.set_local('registered-services', services)
-        conv.set_remote('registered-services', services)
+        conv.set_remote('registered-services', json.dumps(services))
         hookenv.log('Service {} registered with UUID {}'.format(name, data['uuid']))
         return data['uuid']
 

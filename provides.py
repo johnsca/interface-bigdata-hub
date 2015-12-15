@@ -18,7 +18,7 @@ from charms.reactive import scopes
 
 
 class HubProvides(RelationBase):
-    scope = scopes.UNIT
+    scope = scopes.SERVICE
 
     @hook('{provides:bigdata-hub}-relation-joined')
     def joined(self):
